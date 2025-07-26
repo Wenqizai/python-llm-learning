@@ -11,13 +11,23 @@ def main():
         if text.lower() == 'q':
             break
         
-        result = chain.invoke({
+        # 等待结果返回
+        # result = chain.invoke({
+        #     "input_language": "zh-CN",
+        #     "output_language": "en-US",
+        #     "text": text
+        # })
+        
+        # 流式输出结果
+        stream = chain.stream({
             "input_language": "zh-CN",
             "output_language": "en-US",
             "text": text
         })
         
-        print(f"\n翻译结果: {result.content}")
+        for chunk in stream:
+            print(chunk.content, end="", flush=True)
+
 
 if __name__ == "__main__":
     main() 

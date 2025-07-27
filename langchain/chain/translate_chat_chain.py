@@ -1,5 +1,6 @@
 from langchain_core.prompts import ChatPromptTemplate
-from langchain.api_manager import ApiKeyManager
+from .api_manager import ApiKeyManager
+from langchain_core.output_parsers import StrOutputParser
 
 
 def create_translation_chain():
@@ -17,7 +18,9 @@ def create_translation_chain():
         ("user", 
             "{text}"
         )
-    ])
+    ])  
+    
+    parser = StrOutputParser()
 
-    return prompt | llm
+    return prompt | llm | parser
 

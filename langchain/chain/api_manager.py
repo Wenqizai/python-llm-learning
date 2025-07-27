@@ -1,5 +1,6 @@
 from langchain_openai import ChatOpenAI
 import langchain
+import os
 
 # 设置langchain的必要属性
 langchain.verbose = False
@@ -17,7 +18,10 @@ class ApiKeyManager:
     def load_openai_config(self):
         """从配置文件加载API密钥和基础URL"""
         if self.openai_config_path is None:
-            self.openai_config_path = "private-config/openai-api-key"
+            # 获取当前文件的目录，然后向上两级找到项目根目录
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            project_root = os.path.dirname(os.path.dirname(current_dir))
+            self.openai_config_path = os.path.join(project_root, "private-config", "openai-api-key")
         try:
             with open(self.openai_config_path, "r") as f:
                 for line in f:
